@@ -42,8 +42,10 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
      * @since 06.10.2011
      */
     public static $db = array(
-        'WidgetTitle'               => 'VarChar(255)',
-        'numberOfProducts'          => 'Int'
+        'WidgetTitle'                   => 'VarChar(255)',
+        'numberOfProducts'              => 'Int',
+        'useListView'                   => 'Boolean',
+        'isContentView'                 => 'Boolean',
     );
 
     /**
@@ -115,20 +117,25 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
      * @since 06.10.2011
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-
-        $fields->push(
-            new TextField('WidgetTitle', _t('SilvercartLatestProductsWidget.WIDGET_TITLE'))
-        );
-        $fields->push(
-            new TextField('numberOfProducts', _t('SilvercartLatestProductsWidget.NUMBER_OF_PRODUCTS'))
-        );
-
+        $fields = new FieldSet();
+        
+        $titleField             = new TextField('WidgetTitle', _t('SilvercartLatestProductsWidget.WIDGET_TITLE'));
+        $numberOfProductsField  = new TextField('numberOfProducts', _t('SilvercartLatestProductsWidget.NUMBER_OF_PRODUCTS'));
+        $useListViewField       = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
+        $isContentView          = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        
+        $rootTabSet = new TabSet('SilvercartLatestProductsWidget');
+        $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
+        
+        $fields->push($rootTabSet);
+        $rootTabSet->push($basicTab);
+        
+        $basicTab->push($titleField);
+        $basicTab->push($numberOfProductsField);
+        $basicTab->push($isContentView);
+        $basicTab->push($useListViewField);
+        
         return $fields;
-    }
-    
-    public function isContentView() {
-        return true;
     }
 }
 
