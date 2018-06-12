@@ -1,0 +1,7 @@
+nl:
+    SilvercartLatestProductsWidget:
+        TITLE: 'Nieuwste producten'
+        WIDGET_TITLE: 'De titel voor deze widget op de gepubliceerde webwinkel'
+        CMSTITLE: 'Nieuwste producten'
+        DESCRIPTION: 'Toont een instelbaar nummer van de laatste producten uit de webshop.'
+        NUMBER_OF_PRODUCTS: 'Aantal producten deze widget moet tonen'

@@ -1,0 +1,7 @@
+de:
+    SilvercartLatestProductsWidget:
+        TITLE: 'Neueste Artikel'
+        WIDGET_TITLE: 'Der Titel dieses Widgets, wie er im Webshop angezeigt werden soll'
+        CMSTITLE: 'Neueste Artikel'
+        DESCRIPTION: 'Zeigt eine konfigurierbare Anzahl der neuesten Artikel aus dem Webshop an.'
+        NUMBER_OF_PRODUCTS: 'Anzahl der Artikel, die angezeigt werden sollen'

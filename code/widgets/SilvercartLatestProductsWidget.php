@@ -1,35 +1,22 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2018 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package SilvercartLatestProducts
- * @subpackage Widgets
+ * @package SilverCart
+ * @subpackage LatestProducts_Widgets
  */
 
 /**
  * Provides a widget that shows a configurable number of the latest products.
  * 
- * @package SilvercartLatestProducts
- * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 06.10.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2011 pixeltricks GmbH
+ * @package SilverCart
+ * @subpackage LatestProducts_Widgets
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 12.06.2018
+ * @license see license file in modules root directory
+ * @copyright 2018 pixeltricks GmbH
  */
 class SilvercartLatestProductsWidget extends SilvercartWidget {
 
@@ -37,27 +24,24 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2011
      */
-    public static $db = array(
-        'WidgetTitle'                   => 'VarChar(255)',
-        'numberOfProducts'              => 'Int',
-        'useListView'                   => 'Boolean',
-        'isContentView'                 => 'Boolean',
-    );
+    private static $db = [
+        'WidgetTitle'      => 'VarChar(255)',
+        'numberOfProducts' => 'Int',
+        'useListView'      => 'Boolean',
+        'isContentView'    => 'Boolean',
+    ];
 
     /**
      * Returns the title of this widget.
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2018
      */
     public function Title() {
-        return _t('SilvercartLatestProductsWidget.TITLE');
+        return _t('SilvercartLatestProductsWidget.TITLE', 'Latest products');
     }
 
     /**
@@ -65,11 +49,11 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2018
      */
     public function CMSTitle() {
-        return _t('SilvercartLatestProductsWidget.CMSTITLE');
+        return _t('SilvercartLatestProductsWidget.CMSTITLE', 'Latest products');
     }
 
     /**
@@ -78,11 +62,11 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2018
      */
     public function Description() {
-        return _t('SilvercartLatestProductsWidget.DESCRIPTION');
+        return _t('SilvercartLatestProductsWidget.DESCRIPTION', 'Shows a configurable number of the latest products from the webshop.');
     }
 
     /**
@@ -92,15 +76,18 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2018
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'numberOfProducts'  => _t('SilvercartLatestProductsWidget.NUMBER_OF_PRODUCTS'),
-                'WidgetTitle'       => _t('SilvercartLatestProductsWidget.WIDGET_TITLE')
+                'numberOfProducts' => _t('SilvercartLatestProductsWidget.NUMBER_OF_PRODUCTS', 'Number of products this widget should show'),
+                'WidgetTitle'      => _t('SilvercartLatestProductsWidget.WIDGET_TITLE', 'The title for this widget on the storefront'),
+                'useListView'      => _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW', 'Use list view'),
+                'isContentView'    => _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW', 'Is content view'),
+                'BasicTab'         => _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME', 'Basic'),
             )
         );
 
@@ -112,20 +99,17 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
      * Define CMS Fields for this widget.
      *
      * @return FieldSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2011
      */
     public function getCMSFields() {
         $fields = new FieldSet();
         
-        $titleField             = new TextField('WidgetTitle', _t('SilvercartLatestProductsWidget.WIDGET_TITLE'));
-        $numberOfProductsField  = new TextField('numberOfProducts', _t('SilvercartLatestProductsWidget.NUMBER_OF_PRODUCTS'));
-        $useListViewField       = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
-        $isContentView          = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        $titleField             = new TextField('WidgetTitle', $this->fieldLabel('WidgetTitle'));
+        $numberOfProductsField  = new TextField('numberOfProducts', $this->fieldLabel('numberOfProducts'));
+        $useListViewField       = new CheckboxField('useListView', $this->fieldLabel('useListView'));
+        $isContentView          = new CheckboxField('isContentView', $this->fieldLabel('isContentView'));
         
         $rootTabSet = new TabSet('SilvercartLatestProductsWidget');
-        $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
+        $basicTab   = new Tab('basic', $this->fieldLabel('BasicTab'));
         
         $fields->push($rootTabSet);
         $rootTabSet->push($basicTab);
@@ -136,42 +120,5 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
         $basicTab->push($useListViewField);
         
         return $fields;
-    }
-}
-
-/**
- * Provides a widget that shows a configurable number of the latest products.
- * 
- * @package SilvercartLatestProducts
- * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 06.10.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2011 pixeltricks GmbH
- */
-class SilvercartLatestProductsWidget_Controller extends SilvercartWidget_Controller {
-
-    /**
-     * Returns a DataObjectSet containing SilvercartProduct DataObjects.
-     *
-     * @return DataObjectSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2011
-     */
-    public function Elements() {
-        if (!$this->numberOfProducts) {
-            $this->numberOfProducts = 5;
-        }
-        
-        $products = DataObject::get(
-            'SilvercartProduct',
-            'isActive = 1 AND SilvercartProductGroupID > 0',
-            'Created DESC',
-            null,
-            $this->numberOfProducts
-        );
-        
-        return $products;
     }
 }

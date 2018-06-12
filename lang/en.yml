@@ -1,0 +1,7 @@
+en:
+    SilvercartLatestProductsWidget:
+        TITLE: 'Latest products'
+        WIDGET_TITLE: 'The title for this widget on the storefront'
+        CMSTITLE: 'Latest products'
+        DESCRIPTION: 'Shows a configurable number of the latest products from the webshop.'
+        NUMBER_OF_PRODUCTS: 'Number of products this widget should show'
