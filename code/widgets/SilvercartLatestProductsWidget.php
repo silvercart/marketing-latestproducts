@@ -98,17 +98,17 @@ class SilvercartLatestProductsWidget extends SilvercartWidget {
     /**
      * Define CMS Fields for this widget.
      *
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields() {
-        $fields = new FieldSet();
+        $fields = new FieldList();
         
         $titleField             = new TextField('WidgetTitle', $this->fieldLabel('WidgetTitle'));
         $numberOfProductsField  = new TextField('numberOfProducts', $this->fieldLabel('numberOfProducts'));
         $useListViewField       = new CheckboxField('useListView', $this->fieldLabel('useListView'));
         $isContentView          = new CheckboxField('isContentView', $this->fieldLabel('isContentView'));
         
-        $rootTabSet = new TabSet('SilvercartLatestProductsWidget');
+        $rootTabSet = new TabSet('Root');
         $basicTab   = new Tab('basic', $this->fieldLabel('BasicTab'));
         
         $fields->push($rootTabSet);
